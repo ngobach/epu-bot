@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const EPU = require('./epu');
 
 require('dotenv').config();
+moment.locale('vi_VN');
 
 let bot = new Bot({
     token: process.env.PAGE_TOKEN,
@@ -141,7 +142,9 @@ function labelFor(m) {
         case -2:
             return 'Ngày kia';
     }
-    return 'Ngày ' + m.format(EPU.DATE_FORMAT);
+    let res = m.format('dddd');
+    res = res[0].toUpperCase() + res.slice(1);
+    return res;
 }
 
 /**
