@@ -16,17 +16,17 @@ bot.on('error', (err) => {
 });
 
 bot.on('message', (payload, reply) => {
-    let text = payload.message.text;
+    let text = payload.message.text.toLowerCase();
     if (/(hi|hello|chao|chào)/.test(text)) {
         // Just greeting
         reply({ text: 'Xin chào' });
-    } else if (/(tks|thank|cam on|cảm ơn)/.test(text)) {
+    } else if (/\b(tks|thank|cam on|cảm ơn)\b/.test(text)) {
         // Say thanks
         reply({ text: 'My pleasure <3' });
-    } else if (/(dit|lon|địt|lồn|f.ck|đĩ|đũy)/.test(text)) {
+    } else if (/\b(dit|lon|địt|lồn|f.ck|đĩ|đũy)\b/.test(text)) {
         // Hater =))
         reply({ text: 'GTFO ;)))' });
-    } else if (/\d+/.test(text)) {
+    } else if (/\d{10}/.test(text)) {
         // Show menu for Student
         const tt = new EPU.TimeTable(text);
         tt.fetch().then(data => {
@@ -74,24 +74,41 @@ bot.on('postback', (payload, reply, action) => {
                 }
                 const endDate = moment(startDate).day(6);
                 data = [];
-                while (!startDate.isAfter(endDate)) {
-                    if (tt.get(startDate))
-                        data.push(...tt.get(startDate));
-                    startDate.add(1, 'd');
+                let empty = true;
+                const currentDate = moment(startDate);
+                while (!currentDate.isAfter(endDate)) {
+                    if (tt.get(currentDate)) {
+                        data[currentDate.format(EPU.DATE_FORMAT)] = tt.get(currentDate);
+                        empty = false;
+                    }
+                    currentDate.add(1, 'd');
                 }
 
                 let pr = reply({
-                    text: `📅 Từ ${startDate.format('DD/MM/YYYY')} đến ${endDate.format('DD/MM/YYYY')}`
+                    text: `📅 Từ ${startDate.format(EPU.DATE_FORMAT)} đến ${endDate.format(EPU.DATE_FORMAT)}`
                 }, () => {
-                    if (data.length === 0) {
-                        reply({ text: 'Tuyệt vời 💗!\nKhông có lịch nào cả' });
+                    if (empty) {
+                        reply({ text: 'Tuyệt vời 💗\nKhông có lịch nào cả' });
                     } else {
-                        let text = data.map((sub) => {
-                            return `📝 ${sub.subject}\n` +
-                                `🕒 Từ tiết: ${sub.startAt}\n` +
-                                `🏫 Phòng: ${sub.room}`;
-                        }).join('\n----------\n');
-                        reply({ text });
+                        const messages = [];
+                        for (let key in data) {
+                            let text = data[key].map((sub) => {
+                                return `📝 ${sub.subject}\n` +
+                                    `🕒 Từ tiết: ${sub.startAt}\n` +
+                                    `🏫 Phòng: ${sub.room}`;
+                            }).join('\n----------\n');
+                            messages.push(`📅 ${labelFor(moment(key, EPU.DATE_FORMAT))}\n\n${text}`);
+                        }
+                        messages.reduce((prev, curr) => {
+                            return prev.then(() => {
+                                return new Promise((res, rej) => {
+                                    reply({ text: curr }, (err) => {
+                                        if (!err) res();
+                                        else rej(err);
+                                    });
+                                });
+                            });
+                        }, Promise.resolve(true));
                     }
                 });
             });
@@ -100,6 +117,23 @@ bot.on('postback', (payload, reply, action) => {
             reply({ text: 'Undefined postback action: ' + postback.action });
     }
 });
+
+// Helper functions
+function labelFor(m) {
+    const now = moment().startOf('day');
+    // const now = moment('2017-02-14', 'YYYY-MM-DD').startOf('day');
+    switch (now.diff(m, 'days')) {
+        case 1:
+            return 'Hôm qua';
+        case 0:
+            return 'Hôm nay';
+        case -1:
+            return 'Ngày mai';
+        case -2:
+            return 'Ngày kia';
+    }
+    return 'Ngày ' + m.format(EPU.DATE_FORMAT);
+}
 
 http.createServer(bot.middleware()).listen(process.env.HTTP_PORT);
 console.log('Bot server running at port :%d.', process.env.HTTP_PORT);

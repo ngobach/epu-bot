@@ -93,3 +93,4 @@ class TimeTable {
 }
 
 exports.TimeTable = TimeTable;
+exports.DATE_FORMAT = DATE_FORMAT;
