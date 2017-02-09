@@ -16,49 +16,55 @@ bot.on('error', (err) => {
 });
 
 bot.on('message', (payload, reply) => {
-    let text = payload.message.text.toLowerCase();
-    if (/(hi|hello|chao|chào)/.test(text)) {
-        // Just greeting
-        reply({ text: 'Xin chào' });
-    } else if (/\b(tks|thank|cam on|cảm ơn)\b/.test(text)) {
-        // Say thanks
-        reply({ text: 'My pleasure <3' });
-    } else if (/\b(dit|lon|địt|lồn|f.ck|đĩ|đũy)\b/.test(text)) {
-        // Hater =))
-        reply({ text: 'GTFO ;)))' });
-    } else if (/\d{10}/.test(text)) {
-        // Show menu for Student
-        const tt = new EPU.TimeTable(text);
-        tt.fetch().then(data => {
-            reply({
-                attachment: {
-                    type: 'template',
-                    payload: {
-                        template_type: 'button',
-                        text: `Xin chào ${data.name}\nTôi có thể giúp gì bạn?`,
-                        buttons: [{
-                            type: "postback",
-                            title: "Thời khóa biểu",
-                            payload: JSON.stringify({ id: text, action: 'timetable', param: {} })
-                        }, {
-                            type: "postback",
-                            title: "TKB tuần sau",
-                            payload: JSON.stringify({ id: text, action: 'timetable', param: { nextWeek: true } })
-                        }, ]
+    if (payload.message.text) {
+        // Handling text message
+        let text = payload.message.text.toLowerCase();
+        if (/(hi|hello|chao|chào)/.test(text)) {
+            // Just greeting
+            reply({ text: 'Xin chào' });
+        } else if (/\b(tks|thank|cam on|cảm ơn)\b/.test(text)) {
+            // Say thanks
+            reply({ text: 'My pleasure <3' });
+        } else if (/\b(dit|lon|địt|lồn|f.ck|đĩ|đũy)\b/.test(text)) {
+            // Hater =))
+            reply({ text: 'GTFO ;)))' });
+        } else if (/\d{10}/.test(text)) {
+            // Show menu for Student
+            const tt = new EPU.TimeTable(text);
+            tt.fetch().then(data => {
+                reply({
+                    attachment: {
+                        type: 'template',
+                        payload: {
+                            template_type: 'button',
+                            text: `Xin chào ${data.name}\nTôi có thể giúp gì bạn?`,
+                            buttons: [{
+                                type: "postback",
+                                title: "TKB tuần này",
+                                payload: JSON.stringify({ id: text, action: 'timetable', param: {} })
+                            }, {
+                                type: "postback",
+                                title: "TKB tuần sau",
+                                payload: JSON.stringify({ id: text, action: 'timetable', param: { nextWeek: true } })
+                            }, ]
+                        }
                     }
-                }
-            }, (err) => {
-                if (err) {
-                    console.error(err);
-                }
+                }, (err) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
+            }).catch(() => {
+                reply({
+                    text: 'Xin lỗi, mã sinh viên này không tồn tại :('
+                });
             });
-        }).catch(() => {
-            reply({
-                text: 'Xin lỗi, mã sinh viên này không tồn tại :('
-            });
-        });
+        } else {
+            reply({ text: 'Xin lỗi. Tôi không hiểu bạn đang cần gì :(\n\nĐể bắt đầu, vui lòng cho tôi biết mã số sinh viên của bạn.\nVD: 1381310007' });
+        }
     } else {
-        reply({ text: 'Xin lỗi. Tôi không hiểu bạn đang cần gì :(\n\nĐể bắt đầu, vui lòng cho tôi biết mã số sinh viên của bạn.\nVD: 1381310007' });
+        // Handling attachment
+        reply({ text: '<3' });
     }
 });
 
@@ -136,4 +142,4 @@ function labelFor(m) {
 }
 
 http.createServer(bot.middleware()).listen(process.env.HTTP_PORT);
-console.log('Bot server running at port :%d.', process.env.HTTP_PORT);
+console.log('Bot server running at 0.0.0.0:%d, NODE_ENV: %s', process.env.HTTP_PORT, process.env.NODE_ENV);
