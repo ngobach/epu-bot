@@ -4,7 +4,7 @@ const moment = require('moment');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const EPU = require('./epu');
+const App = require('./app');
 
 require('dotenv').config();
 moment.locale('vi_VN');
@@ -23,18 +23,14 @@ bot.on('message', (payload, reply) => {
     if (payload.message.text) {
         // Handling text message
         let text = payload.message.text.toLowerCase();
-        if (/(hi|hello|chao|chào)/.test(text)) {
-            // Just greeting
-            reply({ text: 'Xin chào' });
-        } else if (/\b(tks|thank|cam on|cảm ơn)\b/.test(text)) {
-            // Say thanks
-            reply({ text: 'My pleasure <3' });
-        } else if (/\b(dit|lon|địt|lồn|f.ck|đĩ|đũy)\b/.test(text)) {
-            // Hater =))
-            reply({ text: 'GTFO ;)))' });
+        const response = App.COMMON_MESSAGES.find(resp => resp.pattern.test(text));
+        if (response) {
+            // Found corresponding response
+            const responses = response.response;
+            reply({ text: responses[~~(Math.random() * responses.length)] });
         } else if (/\d{10}/.test(text)) {
             // Show menu for Student
-            const tt = new EPU.TimeTable(text);
+            const tt = new App.TimeTable(text);
             tt.fetch().then(data => {
                 reply({
                     attachment: {
@@ -50,7 +46,7 @@ bot.on('message', (payload, reply) => {
                                 type: "postback",
                                 title: "TKB tuần sau",
                                 payload: JSON.stringify({ id: text, action: 'timetable', param: { nextWeek: true } })
-                            }, ]
+                            }]
                         }
                     }
                 }, (err) => {
@@ -76,7 +72,7 @@ bot.on('postback', (payload, reply, action) => {
     const postback = JSON.parse(payload.postback.payload);
     switch (postback.action) {
         case 'timetable':
-            const tt = new EPU.TimeTable(postback.id);
+            const tt = new App.TimeTable(postback.id);
             tt.fetch().then(data => {
                 const startDate = moment().utcOffset('+07:00').day(0);
                 if (postback.param.nextWeek) {
@@ -88,14 +84,14 @@ bot.on('postback', (payload, reply, action) => {
                 const currentDate = moment(startDate);
                 while (!currentDate.isAfter(endDate)) {
                     if (tt.get(currentDate)) {
-                        data[currentDate.format(EPU.DATE_FORMAT)] = tt.get(currentDate);
+                        data[currentDate.format(App.DATE_FORMAT)] = tt.get(currentDate);
                         empty = false;
                     }
                     currentDate.add(1, 'd');
                 }
 
                 let pr = reply({
-                    text: `📅 Từ ${startDate.format(EPU.DATE_FORMAT)} đến ${endDate.format(EPU.DATE_FORMAT)}`
+                    text: `📅 Từ ${startDate.format(App.DATE_FORMAT)} đến ${endDate.format(App.DATE_FORMAT)}`
                 }, () => {
                     if (empty) {
                         reply({ text: 'Tuyệt vời 💗\nKhông có lịch nào cả' });
@@ -107,7 +103,7 @@ bot.on('postback', (payload, reply, action) => {
                                     `🕒Tiết ${sub.startAt} ` +
                                     `🏫 ${sub.room}`;
                             }).join('\n----------\n');
-                            messages.push(`📅 ${labelFor(moment(key, EPU.DATE_FORMAT))}\n\n${text}`);
+                            messages.push(`📅 ${labelFor(moment(key, App.DATE_FORMAT))}\n\n${text}`);
                         }
                         messages.reduce((prev, curr) => {
                             return prev.then(() => {
@@ -175,5 +171,5 @@ app.use((req, res, next) => {
 app.use(express.static('public'));
 
 app.listen(5000, () => {
-    console.log('Express application running at 0.0.0.0:%d, NODE_ENV: %s', process.env.HTTP_PORT, process.env.NODE_ENV);
+    console.log('Express application running at 0.0.0.0:%d [NODE_ENV: %s]', process.env.HTTP_PORT, process.env.NODE_ENV);
 });

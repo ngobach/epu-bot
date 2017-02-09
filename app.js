@@ -92,5 +92,34 @@ class TimeTable {
     }
 }
 
+/**
+ * Common responses
+ */
+exports.COMMON_MESSAGES = [{
+        pattern: /\b(hi|hello|chao|chào)\b/,
+        response: [
+            'Xin chào :)',
+            'Chào bạn :D',
+            'Hello',
+            'Bonjour'
+        ]
+    },
+    {
+        pattern: /\b(dit|lon|địt|lồn|f.ck|đĩ|đũy|dm|đm|vl|vcc)\b/,
+        response: [
+            'GTFO ;)))',
+            'Biến đi cháu',
+            'Cặc'
+        ]
+    },
+    {
+        pattern: /\b(tks|thank|cam on|cảm ơn)\b/,
+        response: [
+            'Xin chào',
+            'My pleasure <3'
+        ]
+    }
+];
+
 exports.TimeTable = TimeTable;
 exports.DATE_FORMAT = DATE_FORMAT;
