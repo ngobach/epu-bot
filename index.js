@@ -1,7 +1,10 @@
 const http = require('http');
 const Bot = require('messenger-bot');
-const EPU = require('./epu');
 const moment = require('moment');
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const EPU = require('./epu');
 
 require('dotenv').config();
 
@@ -141,5 +144,33 @@ function labelFor(m) {
     return 'Ngày ' + m.format(EPU.DATE_FORMAT);
 }
 
-http.createServer(bot.middleware()).listen(process.env.HTTP_PORT);
-console.log('Bot server running at 0.0.0.0:%d, NODE_ENV: %s', process.env.HTTP_PORT, process.env.NODE_ENV);
+/**
+ * Http Server
+ */
+const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.get('/webhook', (req, res) => {
+    return bot._verify(req, res)
+});
+
+app.post('/webhook', (req, res) => {
+    bot._handleMessage(req.body)
+    res.end(JSON.stringify({ status: 'ok' }))
+});
+
+app.use((req, res, next) => {
+    res.setHeader('X-Author-Name', 'BachNX');
+    res.setHeader('X-Author-Email', 'mail@ngobach.net');
+    next();
+});
+
+app.use(express.static('public'));
+
+app.listen(5000, () => {
+    console.log('Express application running at 0.0.0.0:%d, NODE_ENV: %s', process.env.HTTP_PORT, process.env.NODE_ENV);
+});

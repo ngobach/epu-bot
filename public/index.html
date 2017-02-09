@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>EPU Bot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <img src="/img/ghost.png" alt="epu-bot" class="logo">
+        <div class="content">
+            <h1>Xin chào</h1>
+            <div class="fb-messengermessageus" messenger_app_id="1755233518071028" page_id="1812596698988593" data-ref="PASS_THROUGH_PARAM" color="blue" size="xlarge">
+            </div>
+        </div>
+    </div>
+    <footer>
+        <span class="copyrights">Copyrights 2017 <a href="https://ngobach.com/">BachNX</a>. Facebook is a trademark of Facebook Corporation.</span>
+    </footer>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: "1755233518071028",
+                xfbml: true,
+                version: "v2.6"
+            });
+
+        };
+
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/vi_VN/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+</body>
+
+</html>
