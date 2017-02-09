@@ -60,7 +60,7 @@ bot.on('message', (payload, reply) => {
                 });
             });
         } else {
-            reply({ text: 'Xin lỗi. Tôi không hiểu bạn đang cần gì :(\n\nĐể bắt đầu, vui lòng cho tôi biết mã số sinh viên của bạn.\nVD: 1381310007' });
+            reply({ text: 'Để bắt đầu, vui lòng cho tôi biết mã số sinh viên của bạn.\nVD: 1381310007' });
         }
     } else {
         // Handling attachment
@@ -100,8 +100,8 @@ bot.on('postback', (payload, reply, action) => {
                         for (let key in data) {
                             let text = data[key].map((sub) => {
                                 return `📝 ${sub.subject}\n` +
-                                    `🕒 Từ tiết: ${sub.startAt}\n` +
-                                    `🏫 Phòng: ${sub.room}`;
+                                    `🕒Tiết ${sub.startAt} ` +
+                                    `🏫 ${sub.room}`;
                             }).join('\n----------\n');
                             messages.push(`📅 ${labelFor(moment(key, EPU.DATE_FORMAT))}\n\n${text}`);
                         }
