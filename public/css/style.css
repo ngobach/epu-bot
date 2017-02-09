@@ -17,8 +17,8 @@ a {
     box-sizing: border-box;
 }
 
-body,
-html {
+html,
+body {
     height: 100%;
     font-family: 'Source Sans Pro', sans-serif;
     color: #FFFFFF;
@@ -37,11 +37,27 @@ html {
     background: #48BEFE;
 }
 
+.container .logo {
+    margin-right: 28px;
+}
+
 .content {
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 320px;
     align-items: center;
+}
+
+.content h1 {
+    font-weight: 100;
+    font-size: 48pt;
+    font-family: 'Pattaya', sans-serif;
+    margin: 0;
+    text-shadow: 3px 5px 0 rgba(0, 0, 0, .3);
+}
+
+.content h2 {
+    font-weight: 100;
 }
 
 footer {
@@ -62,4 +78,20 @@ footer>.copyrights {
 
 footer>.copyrights a {
     color: #AAA;
+}
+
+@media only screen and (max-width: 1000px) {
+    .container .screen {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 756px) {
+    .container {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .container>* {
+        margin-top: 32px;
+    }
 }
