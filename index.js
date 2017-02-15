@@ -21,6 +21,11 @@ bot.on('error', (err) => {
 
 bot.on('message', (payload, reply) => {
     if (payload.message.text) {
+        // Check if this is a quick reply
+        if (payload.message.quick_reply) {
+            handlePostback(JSON.parse(payload.message.quick_reply.payload), reply);
+            return;
+        }
         // Handling text message
         let text = payload.message.text.toLowerCase();
         const response = App.COMMON_MESSAGES.find(resp => resp.pattern.test(text));
@@ -41,11 +46,11 @@ bot.on('message', (payload, reply) => {
                             buttons: [{
                                 type: "postback",
                                 title: "TKB tuần này",
-                                payload: JSON.stringify({ id: text, action: 'timetable', param: {} })
+                                payload: App.PayloadFactory.timeTable(text)
                             }, {
                                 type: "postback",
                                 title: "TKB tuần sau",
-                                payload: JSON.stringify({ id: text, action: 'timetable', param: { nextWeek: true } })
+                                payload: App.PayloadFactory.timeTable(text, moment().utcOffset('+07:00').add(1, 'weeks'))
                             }]
                         }
                     }
@@ -68,16 +73,12 @@ bot.on('message', (payload, reply) => {
     }
 });
 
-bot.on('postback', (payload, reply, action) => {
-    const postback = JSON.parse(payload.postback.payload);
+function handlePostback(postback, reply) {
     switch (postback.action) {
         case 'timetable':
-            const tt = new App.TimeTable(postback.id);
+            const tt = new App.TimeTable(postback.param.id);
             tt.fetch().then(data => {
-                const startDate = moment().utcOffset('+07:00').day(0);
-                if (postback.param.nextWeek) {
-                    startDate.add(1, 'week');
-                }
+                const startDate = moment(postback.param.day, App.DATE_FORMAT).utcOffset('+07:00').day(0);
                 const endDate = moment(startDate).day(6);
                 data = [];
                 let empty = true;
@@ -103,18 +104,33 @@ bot.on('postback', (payload, reply, action) => {
                                     `🕒Tiết ${sub.startAt} ` +
                                     `🏫 ${sub.room}`;
                             }).join('\n----------\n');
-                            messages.push(`📅 ${labelFor(moment(key, App.DATE_FORMAT))}\n\n${text}`);
+                            messages.push(`📅 ${labelFor(moment(key, App.DATE_FORMAT))} (${key})\n\n${text}`);
                         }
                         messages.reduce((prev, curr) => {
-                            return prev.then(() => {
-                                return new Promise((res, rej) => {
-                                    reply({ text: curr }, (err) => {
-                                        if (!err) res();
-                                        else rej(err);
+                                return prev.then(() => {
+                                    return new Promise((res, rej) => {
+                                        reply({ text: curr }, (err) => {
+                                            if (!err) res();
+                                            else rej(err);
+                                        });
                                     });
                                 });
+                            }, Promise.resolve(true))
+                            .then(() => {
+                                // Sending Navigator between weeks
+                                reply({
+                                    text: 'Muốn xem tuần khác?',
+                                    quick_replies: [{
+                                        content_type: 'text',
+                                        title: 'Tuần trước',
+                                        payload: App.PayloadFactory.timeTable(postback.param.id, moment(startDate).add(-1, 'weeks'))
+                                    }, {
+                                        content_type: 'text',
+                                        title: 'Tuần tiếp',
+                                        payload: App.PayloadFactory.timeTable(postback.param.id, moment(startDate).add(1, 'weeks'))
+                                    }]
+                                });
                             });
-                        }, Promise.resolve(true));
                     }
                 });
             });
@@ -122,12 +138,16 @@ bot.on('postback', (payload, reply, action) => {
         default:
             reply({ text: 'Undefined postback action: ' + postback.action });
     }
+}
+
+bot.on('postback', (payload, reply, action) => {
+    const postback = JSON.parse(payload.postback.payload);
+    handlePostback(postback, reply);
 });
 
 // Helper functions
 function labelFor(m) {
     const now = moment().startOf('day');
-    // const now = moment('2017-02-14', 'YYYY-MM-DD').startOf('day');
     switch (now.diff(m, 'days')) {
         case 1:
             return 'Hôm qua';
@@ -164,7 +184,7 @@ app.post('/webhook', (req, res) => {
 
 app.use((req, res, next) => {
     res.setHeader('X-Author-Name', 'BachNX');
-    res.setHeader('X-Author-Email', 'mail@ngobach.net');
+    res.setHeader('X-Author-Email', 'mail@ngobach.com');
     next();
 });
 
