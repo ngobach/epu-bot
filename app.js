@@ -1,7 +1,7 @@
 const request = require('request');
 const cheerio = require('cheerio');
 const moment = require('moment');
-const cache = require('lru-cache')(50);
+const cache = require('lru-cache')(1000);
 const DATE_FORMAT = 'DD/MM/YYYY';
 
 function get(url) {
@@ -96,7 +96,7 @@ class TimeTable {
  * Common responses
  */
 exports.COMMON_MESSAGES = [{
-        pattern: /\b(hi|hello|chao|chào)\b/,
+        pattern: /(\bhi\b|hello|chao|chào)/,
         response: [
             'Xin chào :)',
             'Chào bạn :D',
@@ -105,21 +105,34 @@ exports.COMMON_MESSAGES = [{
         ]
     },
     {
-        pattern: /\b(dit|lon|địt|lồn|f.ck|đĩ|đũy|dm|đm|vl|vcc)\b/,
+        pattern: /((d|đ)(i|ị)t|lon|lồn|f.ck|đĩ|đũy|dm|đm|vl|vcc)/,
         response: [
             'GTFO ;)))',
             'Biến đi cháu',
-            'Cặc'
+            'C*c'
         ]
     },
     {
-        pattern: /\b(tks|thank|cam on|cảm ơn)\b/,
+        pattern: /(tks|thank|cam on|cảm ơn)/,
         response: [
-            'Xin chào',
-            'My pleasure <3'
+            'My pleasure <3',
+            'You\'re welcome!'
         ]
     }
 ];
 
+class PayloadFactory {
+    static timeTable(id, day = moment().utcOffset('+07:00')) {
+        return JSON.stringify({
+            action: 'timetable',
+            param: {
+                id,
+                day: day.day(0).format(DATE_FORMAT)
+            }
+        });
+    }
+}
+
 exports.TimeTable = TimeTable;
 exports.DATE_FORMAT = DATE_FORMAT;
+exports.PayloadFactory = PayloadFactory;
