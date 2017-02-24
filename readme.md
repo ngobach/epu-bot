@@ -58,6 +58,15 @@ Tiếp, trong 1 tab khác chạy lệnh:
 npm start
 ```
 
+Kết quả thu được
+
+```
+Express application running at 0.0.0.0:5000 [NODE_ENV: debug]
+{ result: 'Successfully updated greeting' }
+{ result: 'Successfully added new_thread\'s CTAs' }
+{ result: 'Successfully added structured menu CTAs' }
+```
+
 Author
 ----
 
