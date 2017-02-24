@@ -25,7 +25,7 @@ Trước tiên Clone project này từ github về:
 git clone https://github.com/thanbaiks/epu-bot.git epu-bot && \
 cd epu-bot && \
 npm install && \
-cp .env.example .env \
+cp .env.example .env
 ```
 
 Trước khi chạy cần phải thiết lập lại thông số của bot trong file **.env**.
@@ -57,6 +57,11 @@ Tiếp, trong 1 tab khác chạy lệnh:
 ```shell
 npm start
 ```
+
+Author
+----
+
+EPU Bot được viết bởi BachNX <mail@ngobach.com>. Get in touch with me at: <https://ngobach.com>. :grinning:
 
 License
 ----
