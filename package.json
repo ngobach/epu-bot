@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "tunnel": "ngrok http 5000"
+    "tunnel": "ngrok http 5000",
+    "scss": "node-sass -w -o public/css/ --output-style compressed public/css/style.scss"
   },
   "author": "bachnx",
   "license": "ISC",
@@ -15,6 +16,11 @@
     "cheerio": "^0.22.0",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
+    "gulp": "^3.9.1",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^3.1.0",
     "lodash": "^4.17.4",
     "lowdb": "^0.15.5",
     "lru-cache": "^4.0.2",

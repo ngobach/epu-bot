@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Pattaya|Source+Sans+Pro&subset=vietnamese');
+@import url('https://unpkg.com/normalize.css@5.0.0/normalize.css');
+a {
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+$bg-color: #48BEFE;
+html,
+body {
+    height: 100%;
+    font-family: 'Source Sans Pro', sans-serif;
+    background: $bg-color;
+    color: #FFFFFF;
+}
