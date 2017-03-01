@@ -2,15 +2,17 @@
 <html lang="en">
 
 <head>
-    <title>EPU Bot [beta]</title>
+    <title>EPU Bot - Chatbot cho sinh viên ĐHĐL</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/style.min.css" rel="stylesheet">
 
     <!-- #OG Tags -->
     <meta property="og:title" content="EPU Bot" />
-    <meta property="og:description" content="Wanna say something?" />
+    <meta property="og:description" content="Chatbot cung cấp các tiện ích cho SV ĐHĐL" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content=":SITE_URL:/img/og.jpg" />
     <meta property="og:image:width" content="630" />
@@ -22,22 +24,120 @@
 </head>
 
 <body>
-    <div class="container">
-        <img src="/img/ghost.png" alt="epu-bot" class="logo">
-        <img src="/img/screen.png" alt="epu-bot" class="screen">
-        <div class="content">
-            <h1>EPU Bot</h1>
-            <h2>Xin chào</h2>
-            <div class="fb-messengermessageus" messenger_app_id="1755233518071028" page_id="1812596698988593" color="blue" size="xlarge">
+    <div class="header">
+        <div class="container">
+            <div class="clearfix hidden-xs">
+                <ul class="top-menu pull-right">
+                    <li><a href="/"><b>EPU Bot</b></a></li>
+                    <li><a href="#gioi-thieu">Giới thiệu</a></li>
+                    <li><a href="https://github.com/thanbaiks/epu-bot" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Github</a></li>
+                    <li><a href="https://www.facebook.com/groups/epu235/" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i> Group</a></li>
+                </ul>
+            </div>
+            <div class="row row-eq-height">
+                <div class="col-sm-6 col-xs-12 col-md-4 col-md-offset-2">
+                    <div class="logo-container">
+                        <img src="/img/ghost.png" alt="epu-bot">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12 col-md-4">
+                    <div class="cta">
+                        <h1>Hey you! Yes, you!</h1>
+                        <h3>Wanna say something?</h3>
+                        <div class="fb-messengermessageus" messenger_app_id="1755233518071028" page_id="1812596698988593" color="blue" size="xlarge"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="body">
+        <div class="container">
+            <div class="row introduce" id="gioi-thieu">
+                <div class="col-sm-12">
+                    <h2 class="text-center">Giới thiệu</h2>
+                </div>
+                <div class="col-sm-4">
+                    <div class="well">
+                        <h3>Sample</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur praesentium fugiat vero, voluptatum, ipsa soluta distinctio laboriosam totam asperiores, consequatur doloribus sunt. Nesciunt ab quae aspernatur debitis perferendis, deserunt deleniti!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="well">
+                        <h3>Sample</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur praesentium fugiat vero, voluptatum, ipsa soluta distinctio laboriosam totam asperiores, consequatur doloribus sunt. Nesciunt ab quae aspernatur debitis perferendis, deserunt deleniti!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="well">
+                        <h3>Sample</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur praesentium fugiat vero, voluptatum, ipsa soluta distinctio laboriosam totam asperiores, consequatur doloribus sunt. Nesciunt ab quae aspernatur debitis perferendis, deserunt deleniti!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contrast parallax">
+            <div class="para"></div>
+            <div class="container" style="z-index: 2">
+                <h1 class="text-center">Tính năng</h1>
+                <div class="row feature">
+                    <div class="col-sm-6 text-right">
+                        <img src="/img/screen.png" alt="screenshot">
+                    </div>
+                    <div class="col-sm-6 text-left">
+                        <h3>Tra cứu thời khóa biểu</h3>
+                        <p>
+                            Dữ liệu thời khóa biểu được lấy từ website <em>dkmh.epu.edu.vn</em>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="testimonial">
+                <h2 class="text-center">Nhận xét từ người dùng</h2>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="item">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quibusdam cum, quos, in nulla suscipit debitis odio quaerat at ducimus architecto eveniet autem velit temporibus voluptates laborum dicta et voluptatum.</p>
+                            <div class="user">
+                                BachNX<br>
+                                <img src="https://graph.facebook.com/134325980235485/picture?width=180&height=180" alt="user image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="item">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quibusdam cum, quos, in nulla suscipit debitis odio quaerat at ducimus architecto eveniet autem velit temporibus voluptates laborum dicta et voluptatum.</p>
+                            <div class="user">
+                                BachNX<br>
+                                <img src="https://graph.facebook.com/134325980235485/picture?width=180&height=180" alt="user image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <footer>
-        <span class="copyrights">Copyrights 2017 <a href="https://ngobach.com/">BachNX</a>. Facebook is a trademark of Facebook Corporation.</span>
+        <div class="copyrights">
+            Copyrights 2017 <a href="https://ngobach.com/">BachNX</a>.
+            <a href="https://www.facebook.com/">Facebook</a> is a registed trademark of Facebook Corporation. Photos &copy; <a href="https://unsplash.com">Unsplash</a>.
+        </div>
     </footer>
 
-    <script src="https://unpkg.com/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://unpkg.com/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
     <script>
         window.fbAsyncInit = function() {
             FB.init({

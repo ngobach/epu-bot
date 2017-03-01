@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Pattaya|Source+Sans+Pro&subset=vietnamese');
 @import url('https://unpkg.com/normalize.css@5.0.0/normalize.css');
-a {
-    text-decoration: none;
+a,
+a:hover {
+    text-decoration: none !important;
 }
 
 * {
@@ -9,10 +10,184 @@ a {
 }
 
 $bg-color: #48BEFE;
-html,
-body {
+$primary-color: darken($bg-color, 20);
+$accent-color: rgb(230, 126, 34);
+
+html, body {
     height: 100%;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif !important;
+    user-select: none;
+}
+h1,h2,h3,h4 {
+    font-family: Pattaya, sans-serif;
+}
+
+.contrast {
+    background: $bg-color;
+    color: #FFF;
+    h1, h2, h3, h4 {
+        text-shadow: 2px 2px rgba(0, 0, 0, .3);
+    }
+}
+
+.parallax {
+    position: relative;
+    & > * {
+        position: relative;
+    }
+    .para {
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        opacity: .1;
+        background-image: url(/img/bg.jpg);
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+
+.vcenter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/**
+* Site Blocks
+*/
+.header {
     background: $bg-color;
     color: #FFFFFF;
+    border-bottom: solid 8px $primary-color;
+    ul.top-menu {
+        list-style: none;
+        li {
+            display: inline-block;
+            margin: 2px;
+            a {
+                display: inline-block;
+                padding: 5px 10px;
+                font-size: 12pt;
+                color: #FFF !important;
+                border-radius: 5px;
+                transition: background ease 200ms;
+                &:hover {
+                    background: rgba(0, 0, 0, .1);
+                    text-shadow: 1px 1px 2px rgba(0, 0, 0, .3);
+                }
+            }
+        }
+    }
+    .logo-container {
+        text-align: center;
+        margin-top: 20px;
+        padding: 20px 0;
+        &>img {
+            width: 280px;
+        }
+    }
+    .cta {
+        text-align: center;
+        padding: 20px 0;
+        h1 {
+            font-size: 28pt;
+            text-shadow: 2px 2px rgba(0, 0, 0, .3);
+        }
+        h3 {
+            @extend h1;
+            font-size: 18pt;
+        }
+        .fb-messengermessageus {
+            margin-top: 10px;
+        }
+    }
+}
+
+.body {
+    margin-top: 20px;
+    margin-bottom: 40px;
+
+    & > * {
+        margin-top: 32px;
+        padding: 20px 0;
+    }
+
+    .introduce {
+        h3 {
+            text-align: center;
+            color: $primary-color;
+        }
+    }
+    
+    .testimonial {
+        .item {
+            $icon-size: 100px;
+            display: block;
+            border-radius: 4px;
+            background: $bg-color;
+            padding: 16px;
+            color: #FFFFFF;
+            font-size: 12pt;
+            margin-bottom: $icon-size / 2 + 10px;
+            .user {
+                color: lighten($bg-color, 35);
+                display: block;
+                font-size: 16pt;
+                text-align: center;
+                height: 58px;
+                font-family: 'Pattaya', sans-serif;
+                text-shadow: 1px 1px 1px rgba(0,0,0,.4);
+                img {
+                    position: absolute;
+                    width: $icon-size;
+                    height: $icon-size;
+                    margin-left: - $icon-size/2;
+                    border-radius: 50%;
+                    border: solid 4px #FFF;
+                }
+            }
+        }
+    }
+
+    .feature {
+
+        h3 {
+            text-shadow: none;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 32pt;
+            color: #FFFFFF;
+        }
+
+        p {
+            font-size: 16pt;
+        }
+
+        img {
+            border-radius: 8px;
+            box-shadow: 0 0 16px rgba(0,0,0,.4);
+            max-width: 100%;
+        }
+    }
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    background: #222;
+    text-align: center;
+    padding: 5px;
+    color: #666;
+    .copyrights {
+        font-size: 10pt;
+        a {
+            color: #AAA;
+        }
+    }
 }
