@@ -2,3 +2,6 @@
 /.vscode
 /.env
 /data.json
+
+/public/index.html
+/public/style.min.css
