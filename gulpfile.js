@@ -19,7 +19,6 @@ gulp.task('html', () => {
         .pipe(replace(':SITE_URL:', process.env.SITE_URL))
         .pipe(htmlmin({
             collapseWhitespace: true,
-            collapseInlineTagWhitespace: true,
             collapseBooleanAttributes: true,
             minifyJS: true,
             removeComments: true
