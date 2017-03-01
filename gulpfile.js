@@ -5,11 +5,15 @@ const sass = require('gulp-sass');
 const rename = require('gulp-rename');
 const htmlmin = require('gulp-htmlmin');
 const replace = require('gulp-replace');
-
+const autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('scss', () => {
     return gulp.src('public/src/style.scss')
         .pipe(sass({ outputStyle: 'compressed' }))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
         .pipe(rename('style.min.css'))
         .pipe(gulp.dest('public'));
 });
