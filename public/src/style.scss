@@ -49,12 +49,6 @@ h1,h2,h3,h4 {
     }
 }
 
-.vcenter {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-}
 
 /**
 * Site Blocks
@@ -184,6 +178,7 @@ footer {
     text-align: center;
     padding: 5px;
     color: #666;
+    z-index: 1995;
     .copyrights {
         font-size: 10pt;
         a {
