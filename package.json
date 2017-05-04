@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "install": "npm run gulp-build",
     "dev": "concurrently \"nodemon index.js\" \"gulp\"",
     "tunnel": "ngrok http 5000",
     "gulp": "gulp",
